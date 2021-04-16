@@ -85,6 +85,7 @@ public class SampleController implements Initializable {
 		    				
 		    				//index für das Richtige Attribut
 		    				int indexValue = s.worker.get(kons.getMitarbeiter()-1).getIndex(kons.getVar());    				
+		    				
 		    				if(indexValue == -1) {
 		    					info = new Alert(AlertType.INFORMATION);
 		    					info.setContentText("Mitarbeiter " + + kons.getMitarbeiter() + ", besitzt kein Attribut "+ kons.getVar() + ". \nDie Konsequenz wurde Uebersprungen" );
@@ -92,25 +93,48 @@ public class SampleController implements Initializable {
 		    					continue;
 		    				}
 		    				
-		    				int wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
+		    				double wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
 		    				double delta = 0;
 		    				double deltaR = 0;
+		    				double random = kons.getRan();
 		    				
 		    				//Entscheidung ob DeltaFac oder DeltaAbs benutzt wird
-		    				if((int)kons.getDeltaFac() != 0) {
-		    					delta = ((kons.getDeltaFac()-1)*wert)*((100-kons.getRan())/100);
-		    					deltaR = ((kons.getDeltaFac()-1)*wert)*(kons.getRan()/100);
+		    				if(kons.getDeltaFac() != 0) {
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					//Unterscheiden ob DeltaFac Summiert oder Reduziert
+		    					if(kons.getDeltaFac()>1) {
+		    						
+		    						delta = ((kons.getDeltaFac()-1)*wert)*((100-random)/100);
+		    						deltaR = ((kons.getDeltaFac()-1)*wert)*(random/100);
 		    					
-		    				}else if((int)kons.getDeltaAbs () != 0) {
-		    					delta = kons.getDeltaAbs()*((100-kons.getRan())/100);
-		    					deltaR = kons.getDeltaAbs()*(kons.getRan()/100);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = ((wert -(wert * kons.getDeltaFac()))*((100-random)/100))*(-1);
+		    						deltaR = (wert - (wert * kons.getDeltaFac()))*(random/100);
+		    						
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, ((int)(Math.random()*(deltaR+1)))*(-1));
+		    					}
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*deltaR+1));
+		    				}else if(kons.getDeltaAbs () != 0) {
 		    					
+		    					//Unterscheide ob DeltaAbs Summiert oder Reduziert
+		    					if(kons.getDeltaAbs()>1) {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = kons.getDeltaAbs()*(random/100);
+		    					
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = (kons.getDeltaAbs()*(random/100))*(-1);
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,((int)(Math.random()*(deltaR+1))*(-1)));
+		    						
+		    					}
 		    				}
 		    				
 		    				
@@ -122,31 +146,57 @@ public class SampleController implements Initializable {
 		    				kons = situ.get(k).getB().get(p);
 		    				
 		    				//index für das Richtige Attribut
-		    				int indexValue = s.worker.get(kons.getMitarbeiter()-1).getIndex(kons.getVar());
+		    				int indexValue = s.worker.get(kons.getMitarbeiter()-1).getIndex(kons.getVar());    				
+		    				
 		    				if(indexValue == -1) {
 		    					info = new Alert(AlertType.INFORMATION);
 		    					info.setContentText("Mitarbeiter " + + kons.getMitarbeiter() + ", besitzt kein Attribut "+ kons.getVar() + ". \nDie Konsequenz wurde Uebersprungen" );
-		    					info.show();
+		    			        info.show();
 		    					continue;
 		    				}
-		    				int wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
+		    				
+		    				double wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
 		    				double delta = 0;
 		    				double deltaR = 0;
+		    				double random = kons.getRan();
 		    				
-		    				if(kons.getDeltaAbs() == 0) {
-		    					delta = ((kons.getDeltaFac()-1)*wert)*((100-kons.getRan())/100);
-		    					deltaR = ((kons.getDeltaFac()-1)*wert)*(kons.getRan()/100);
+		    				//Entscheidung ob DeltaFac oder DeltaAbs benutzt wird
+		    				if(kons.getDeltaFac() != 0) {
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					//Unterscheiden ob DeltaFac Summiert oder Reduziert
+		    					if(kons.getDeltaFac()>1) {
+		    						
+		    						delta = ((kons.getDeltaFac()-1)*wert)*((100-random)/100);
+		    						deltaR = ((kons.getDeltaFac()-1)*wert)*(random/100);
 		    					
-		    				}else if(kons.getDeltaFac () == 0) {
-		    					delta = kons.getDeltaAbs()*((100-kons.getRan())/100);
-		    					deltaR = kons.getDeltaAbs()*(kons.getRan()/100);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = ((wert -(wert * kons.getDeltaFac()))*((100-random)/100))*(-1);
+		    						deltaR = (wert - (wert * kons.getDeltaFac()))*(random/100);
+		    						
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, ((int)(Math.random()*(deltaR+1)))*(-1));
+		    					}
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*deltaR+1));
+		    				}else if(kons.getDeltaAbs () != 0) {
 		    					
+		    					//Unterscheide ob DeltaAbs Summiert oder Reduziert
+		    					if(kons.getDeltaAbs()>1) {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = kons.getDeltaAbs()*(random/100);
+		    					
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = (kons.getDeltaAbs()*(random/100))*(-1);
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,((int)(Math.random()*(deltaR+1))*(-1)));
+		    						
+		    					}
 		    				}
 		    				
 		    				
@@ -158,31 +208,57 @@ public class SampleController implements Initializable {
 		    				kons = situ.get(k).getC().get(p);
 		    				
 		    				//index für das Richtige Attribut
-		    				int indexValue = s.worker.get(kons.getMitarbeiter()-1).getIndex(kons.getVar());
+		    				int indexValue = s.worker.get(kons.getMitarbeiter()-1).getIndex(kons.getVar());    				
+		    				
 		    				if(indexValue == -1) {
 		    					info = new Alert(AlertType.INFORMATION);
-		    					info.setContentText("Mitarbeiter " + + kons.getMitarbeiter() + ", besitzt kein Attribut "+ kons.getVar() + ".\nDie Konsequenz wurde Uebersprungen" );
-		    					info.show();
+		    					info.setContentText("Mitarbeiter " + + kons.getMitarbeiter() + ", besitzt kein Attribut "+ kons.getVar() + ". \nDie Konsequenz wurde Uebersprungen" );
+		    			        info.show();
 		    					continue;
 		    				}
-		    				int wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
+		    				
+		    				double wert = s.worker.get(kons.getMitarbeiter()-1).getEigen().get(indexValue).getWert();
 		    				double delta = 0;
 		    				double deltaR = 0;
+		    				double random = kons.getRan();
 		    				
-		    				if(kons.getDeltaAbs() == 0) {
-		    					delta = ((kons.getDeltaFac()-1)*wert)*((100-kons.getRan())/100);
-		    					deltaR = ((kons.getDeltaFac()-1)*wert)*(kons.getRan()/100);
+		    				//Entscheidung ob DeltaFac oder DeltaAbs benutzt wird
+		    				if(kons.getDeltaFac() != 0) {
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					//Unterscheiden ob DeltaFac Summiert oder Reduziert
+		    					if(kons.getDeltaFac()>1) {
+		    						
+		    						delta = ((kons.getDeltaFac()-1)*wert)*((100-random)/100);
+		    						deltaR = ((kons.getDeltaFac()-1)*wert)*(random/100);
 		    					
-		    				}else if(kons.getDeltaFac () == 0) {
-		    					delta = kons.getDeltaAbs()*((100-kons.getRan())/100);
-		    					deltaR = kons.getDeltaAbs()*(kons.getRan()/100);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = ((wert -(wert * kons.getDeltaFac()))*((100-random)/100))*(-1);
+		    						deltaR = (wert - (wert * kons.getDeltaFac()))*(random/100);
+		    						
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, (int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue, ((int)(Math.random()*(deltaR+1)))*(-1));
+		    					}
 		    					
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
-		    					s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*deltaR+1));
+		    				}else if(kons.getDeltaAbs () != 0) {
 		    					
+		    					//Unterscheide ob DeltaAbs Summiert oder Reduziert
+		    					if(kons.getDeltaAbs()>1) {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = kons.getDeltaAbs()*(random/100);
+		    					
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)(Math.random()*(deltaR+1)));
+		    					}else {
+		    						delta = kons.getDeltaAbs()*((100-random)/100);
+		    						deltaR = (kons.getDeltaAbs()*(random/100))*(-1);
+		    						
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,(int)delta);
+		    						s.worker.get(kons.getMitarbeiter()-1).addWert(indexValue,((int)(Math.random()*(deltaR+1))*(-1)));
+		    						
+		    					}
 		    				}
 		    				
 		    				
