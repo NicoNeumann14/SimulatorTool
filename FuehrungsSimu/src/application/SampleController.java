@@ -34,7 +34,6 @@ public class SampleController implements Initializable {
 	    @FXML
 	    private TextField txfRunde;
 	    
-	    
 	    private Simulator s;
 	  
 	    private LinkedList<Situation> situ;
@@ -49,19 +48,13 @@ public class SampleController implements Initializable {
         	File selectedDirectory = fileChooser.showOpenDialog(null);
         	DatenVerarbeiten(selectedDirectory);
         
-        	
         	barChart.getData().clear();
-        	
         	for(int i=0; i<s.worker.size(); i++) {
         		addBarCharts(s.worker.get(i), barChart);
         		
         	} 
-        
-	    	
-	    }
+        }
 
-	    
-	    
 	    @FXML
 	    void runSim(ActionEvent event) {
 	    	//Rundenbasierte Simulation der einzelden Situationen
