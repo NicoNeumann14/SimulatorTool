@@ -299,6 +299,8 @@ public class SampleController implements Initializable {
 	    }
 	  } 
 	    
+	    
+	    
 	   @Override
 	    public void initialize (URL url, ResourceBundle rb) {
 	    	//Hier kann der BarChart schon beim Programmstart mit Daten initialisiert werden
