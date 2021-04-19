@@ -368,7 +368,7 @@ public class SampleController implements Initializable {
 				while (fileReader.nextLine()!=null) {
 					zeile++;
 				}
-			} catch (Exception e) {
+ 			} catch (Exception e) {
 			}
 			
 			String [][] tabelle = new String[zeile][spalte];
@@ -393,6 +393,8 @@ public class SampleController implements Initializable {
 				for (int i = 1; i < tabelle.length; i++) {
 					int index =Integer.parseInt(tabelle[i][0])-1;
 					if (situ.isEmpty()) {
+						situ.add(new Situation(tabelle[i]));
+					}else if(situ.size()<= index) {
 						situ.add(new Situation(tabelle[i]));
 					}
 					else {
