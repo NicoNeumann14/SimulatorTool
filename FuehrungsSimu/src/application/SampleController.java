@@ -16,7 +16,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.RadioButton;
 import javafx.stage.FileChooser;
 
 public class SampleController implements Initializable {
@@ -34,9 +36,16 @@ public class SampleController implements Initializable {
 	    @FXML
 	    private TextField txfRunde;
 	    
+	    @FXML
+	    private RadioButton rbALL, rbSE;
+	    
+	    @FXML
+	    private ToggleGroup tgRadio;
+	    
 	    private Simulator s;
-	  
+	    private boolean sIsfull = false; 
 	    private LinkedList<Situation> situ;
+	    private boolean sitIs = false;
 	    
 	    private Alert info;
     	
@@ -47,7 +56,7 @@ public class SampleController implements Initializable {
 	    	FileChooser fileChooser = new FileChooser();
         	File selectedDirectory = fileChooser.showOpenDialog(null);
         	DatenVerarbeiten(selectedDirectory);
-        
+        	
         	barChart.getData().clear();
         	for(int i=0; i<s.worker.size(); i++) {
         		addBarCharts(s.worker.get(i), barChart);
@@ -58,6 +67,9 @@ public class SampleController implements Initializable {
 	    @FXML
 	    void runSim(ActionEvent event) {
 	    	//Rundenbasierte Simulation der einzelden Situationen
+	    	
+	    	
+	    	if(sIsfull && sitIs) {
 	    	
 	    	int runden = Integer.parseInt(txfRunde.getText());
 	    	Fragen kons;
@@ -262,20 +274,52 @@ public class SampleController implements Initializable {
 	    			
 	    		}
 	    		
-	    		//Attribute der Mitarbeiter in die BarChart Laden
-	    		barChart.getData().clear();
-	        	for(int u=0; u<s.worker.size(); u++) {
-	        		addBarCharts(s.worker.get(u), barChart);
+	    		//Attribute der Mitarbeiter nach jeder Runde in die BarChart Laden
+	    		if(rbALL.isSelected()) {
+	    			for(int u=0; u<s.worker.size(); u++) {
+	    				addBarCharts(s.worker.get(u), barChart);	
+	    			}
+	    		}
 	        		
-	        	} 
+	        	
 	    	}
-	    		
+	    	
+	    	if(rbSE.isSelected()) {
+	    		for(int u=0; u<s.worker.size(); u++) {
+	    		addBarCharts(s.worker.get(u), barChart);	
+	    		}
+	    	}
+	    	
+	    }else {
+	    	info = new Alert(Alert.AlertType.WARNING);
+	    	info.setTitle("DatenListe nicht vollständig!");
+	    	info.setHeaderText("Zuerst Mitarbeiter und Situationen laden.");
+	    	info.show();
+	    	
 	    }
+	  } 
 	    
 	   @Override
 	    public void initialize (URL url, ResourceBundle rb) {
 	    	//Hier kann der BarChart schon beim Programmstart mit Daten initialisiert werden
 	    	
+	   }
+	   
+	   @FXML
+	   void refreshChart(ActionEvent event) {
+		   if(sIsfull) {
+			   barChart.getData().clear();
+			   for(int u=0; u<s.worker.size(); u++) {
+		    		addBarCharts(s.worker.get(u), barChart);	
+		    		}
+			      
+		   }else{
+			   info = new Alert(AlertType.INFORMATION);
+			   info.setTitle("Keine Mitarbeiterdaten vorhanden");
+			   info.setHeaderText("Erst möglich wenn Mitarbeiter geladen worden sind");
+			   info.show();
+		   }
+		   
 	   }
 	    
 	    
@@ -343,6 +387,7 @@ public class SampleController implements Initializable {
 			}
 			if (tabelle[0][0].contains("Frage")) {
 				situ = new LinkedList<Situation>();
+				sitIs = true;
 				for (int i = 1; i < tabelle.length; i++) {
 					int index =Integer.parseInt(tabelle[i][0])-1;
 					if (situ.isEmpty()) {
@@ -360,6 +405,7 @@ public class SampleController implements Initializable {
 			}
 			else {
 				s = new Simulator(tabelle);
+				sIsfull = true;
 				
 			}
 			
