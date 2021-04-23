@@ -13,7 +13,7 @@
 
 <AnchorPane id="tabelle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
-      <TextField fx:id="txfRunde" alignment="CENTER_RIGHT" layoutX="713.0" layoutY="675.0" prefHeight="31.0" prefWidth="83.0" text="1" />
+      <TextField fx:id="txfRunde" alignment="CENTER_RIGHT" layoutX="765.0" layoutY="676.0" prefHeight="31.0" prefWidth="83.0" text="1" />
       <BarChart fx:id="barChart" barGap="10.0" categoryGap="20.0" layoutX="21.0" layoutY="24.0" prefHeight="629.0" prefWidth="1147.0" title="Übersicht Mitarbeiter Attribute">
         <xAxis>
           <CategoryAxis fx:id="caAxis" side="BOTTOM" startMargin="3.0" />
@@ -22,24 +22,36 @@
           <NumberAxis fx:id="nAxis" side="LEFT" />
         </yAxis>
       </BarChart>
-      <HBox alignment="CENTER" layoutX="95.0" layoutY="658.0" prefHeight="64.0" prefWidth="347.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="50.0" layoutY="659.0" prefHeight="64.0" prefWidth="429.0" spacing="20.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#loadMitarb" prefHeight="31.0" prefWidth="148.0" text="Mitarbeiter Laden" />
-            <Button mnemonicParsing="false" onAction="#loadSitu" prefHeight="31.0" prefWidth="153.0" text="Situationen Laden" />
+            <HBox alignment="CENTER" prefHeight="64.0" prefWidth="218.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="28.0" prefWidth="73.0" text="Anzeigen:" />
+                  <RadioButton fx:id="rbALL" mnemonicParsing="false" prefHeight="31.0" prefWidth="45.0" text="All">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tgRadio" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="rbSE" mnemonicParsing="false" prefHeight="28.0" prefWidth="59.0" selected="true" text="End" toggleGroup="$tgRadio" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#loadSitu" prefHeight="31.0" prefWidth="197.0" text="Mitarbeiter/Situationen" />
          </children>
       </HBox>
-      <Button layoutX="796.0" layoutY="675.0" mnemonicParsing="false" onAction="#runSim" prefHeight="31.0" prefWidth="149.0" text="Runde(n) Simulieren" />
-      <HBox alignment="CENTER" layoutX="468.0" layoutY="658.0" prefHeight="64.0" prefWidth="218.0" spacing="10.0">
+      <Button layoutX="848.0" layoutY="676.0" mnemonicParsing="false" onAction="#runSim" prefHeight="31.0" prefWidth="155.0" text="Runde(n) Simulieren" />
+      <HBox alignment="CENTER" layoutX="489.0" layoutY="668.0" prefHeight="47.0" prefWidth="255.0" spacing="10.0">
          <children>
-            <Label prefHeight="28.0" prefWidth="73.0" text="Anzeigen:" />
-            <RadioButton fx:id="rbALL" mnemonicParsing="false" prefHeight="31.0" prefWidth="45.0" text="All">
+            <Label text="Auswahl:" />
+            <RadioButton fx:id="rbA" mnemonicParsing="false" text="A">
                <toggleGroup>
-                  <ToggleGroup fx:id="tgRadio" />
+                  <ToggleGroup fx:id="tgChoose" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rbSE" mnemonicParsing="false" prefHeight="28.0" prefWidth="59.0" selected="true" text="End" toggleGroup="$tgRadio" />
+            <RadioButton fx:id="rbB" mnemonicParsing="false" selected="true" text="B" toggleGroup="$tgChoose" />
+            <RadioButton fx:id="rbC" mnemonicParsing="false" text="C" toggleGroup="$tgChoose" />
          </children>
       </HBox>
-      <Button layoutX="985.0" layoutY="675.0" mnemonicParsing="false" onAction="#refreshChart" text="EinzelAnsicht" />
+      <Button layoutX="1031.0" layoutY="675.0" mnemonicParsing="false" onAction="#refreshChart" text="EinzelAnsicht" />
+      <Button layoutX="340.0" layoutY="708.0" mnemonicParsing="false" onAction="#loadCopy" text="Refresh" />
    </children>
 </AnchorPane>

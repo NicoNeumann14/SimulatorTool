@@ -37,12 +37,13 @@ public class SampleController implements Initializable {
 	    private TextField txfRunde;
 	    
 	    @FXML
-	    private RadioButton rbALL, rbSE;
+	    private RadioButton rbALL, rbSE, rbA, rbB, rbC;
 	    
 	    @FXML
-	    private ToggleGroup tgRadio;
+	    private ToggleGroup tgRadio, tgChoose;
 	    
-	    private Simulator s;
+	    private Simulator s, copyS;
+	    
 	    private boolean sIsfull = false; 
 	    private LinkedList<Situation> situ;
 	    private boolean sitIs = false;
@@ -57,11 +58,7 @@ public class SampleController implements Initializable {
         	File selectedDirectory = fileChooser.showOpenDialog(null);
         	DatenVerarbeiten(selectedDirectory);
         	
-        	barChart.getData().clear();
-        	for(int i=0; i<s.worker.size(); i++) {
-        		addBarCharts(s.worker.get(i), barChart);
-        		
-        	} 
+        	
         }
 
 	    @FXML
@@ -82,6 +79,11 @@ public class SampleController implements Initializable {
 	    			
 	    			//Auswahl representiert aktuell die gewählte HandlungsOption
 	    			int auswahl = 0;
+	    			if(rbB.isSelected()) {
+	    				auswahl = 1;
+	    			}else if(rbC.isSelected()) {
+	    				auswahl = 2;
+	    			}
 	    			
 	    			switch(auswahl){
 	    			case 0:
@@ -335,6 +337,24 @@ public class SampleController implements Initializable {
     		
     	}
 	    
+	    
+	    //Die eingelesenen Attribut-Werte wiederherstellen
+	    public void loadCopy() {
+	    	 if(sIsfull) {
+				   barChart.getData().clear();
+				   for(int u=0; u<copyS.worker.size(); u++) {
+			    		addBarCharts(copyS.worker.get(u), barChart);	
+			    		}
+				      
+			   }else{
+				   info = new Alert(AlertType.INFORMATION);
+				   info.setTitle("Keine Mitarbeiterdaten vorhanden");
+				   info.setHeaderText("Erst möglich wenn Mitarbeiter geladen worden sind");
+				   info.show();
+			   }
+			   
+	    }
+	    
 	   
 	    
 	    @FXML
@@ -343,6 +363,14 @@ public class SampleController implements Initializable {
 	    	FileChooser fileChooser = new FileChooser();
         	File selectedDirectory = fileChooser.showOpenDialog(null);
         	DatenVerarbeiten(selectedDirectory);
+        	
+        	if(sIsfull) {
+        		barChart.getData().clear();
+            	for(int i=0; i<s.worker.size(); i++) {
+            		addBarCharts(s.worker.get(i), barChart);
+            		
+            	} 
+        	}
         	 
 	    }
 	    
@@ -409,6 +437,7 @@ public class SampleController implements Initializable {
 			}
 			else {
 				s = new Simulator(tabelle);
+				copyS = new Simulator(tabelle);
 				sIsfull = true;
 				
 			}

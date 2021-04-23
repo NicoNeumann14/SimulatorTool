@@ -30,11 +30,16 @@ public class Mitarbeiter {
 	}
 	
 	
-	
+	//Hier wird Festgestellt dass, die Attribute von min 0 bix max 100 gehen.
 	public void addWert(int valueIndex, int wert) {
 				int ogWert = this.attri.get(valueIndex).getWert();
-				this.attri.get(valueIndex).setWert(ogWert+wert);
-				
+				if((ogWert+wert)>100) {
+					this.attri.get(valueIndex).setWert(100);
+				}else if ((ogWert+wert)<0) {
+					this.attri.get(valueIndex).setWert(0);
+				}else {
+					this.attri.get(valueIndex).setWert(ogWert+wert);
+				}
 	}
 	
 	
