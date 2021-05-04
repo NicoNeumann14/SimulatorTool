@@ -12,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 		    AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
-			Scene scene = new Scene(root,1200,755);
+			Scene scene = new Scene(root,1900,755);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Fuehrungs Simulator");

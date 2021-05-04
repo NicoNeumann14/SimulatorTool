@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="tabelle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<AnchorPane id="tabelle" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
-      <TextField fx:id="txfRunde" alignment="CENTER_RIGHT" layoutX="765.0" layoutY="676.0" prefHeight="31.0" prefWidth="83.0" text="1" />
       <BarChart fx:id="barChart" barGap="10.0" categoryGap="20.0" layoutX="21.0" layoutY="24.0" prefHeight="629.0" prefWidth="1147.0" title="Übersicht Mitarbeiter Attribute">
         <xAxis>
           <CategoryAxis fx:id="caAxis" side="BOTTOM" startMargin="3.0" />
@@ -22,36 +24,47 @@
           <NumberAxis fx:id="nAxis" side="LEFT" />
         </yAxis>
       </BarChart>
-      <HBox alignment="CENTER" layoutX="50.0" layoutY="659.0" prefHeight="64.0" prefWidth="429.0" spacing="20.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="64.0" prefWidth="218.0" spacing="10.0">
-               <children>
-                  <Label prefHeight="28.0" prefWidth="73.0" text="Anzeigen:" />
-                  <RadioButton fx:id="rbALL" mnemonicParsing="false" prefHeight="31.0" prefWidth="45.0" text="All">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="tgRadio" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="rbSE" mnemonicParsing="false" prefHeight="28.0" prefWidth="59.0" selected="true" text="End" toggleGroup="$tgRadio" />
-               </children>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#loadSitu" prefHeight="31.0" prefWidth="197.0" text="Mitarbeiter/Situationen" />
-         </children>
-      </HBox>
-      <Button layoutX="848.0" layoutY="676.0" mnemonicParsing="false" onAction="#runSim" prefHeight="31.0" prefWidth="155.0" text="Runde(n) Simulieren" />
-      <HBox alignment="CENTER" layoutX="489.0" layoutY="668.0" prefHeight="47.0" prefWidth="255.0" spacing="10.0">
-         <children>
-            <Label text="Auswahl:" />
-            <RadioButton fx:id="rbA" mnemonicParsing="false" text="A">
-               <toggleGroup>
-                  <ToggleGroup fx:id="tgChoose" />
-               </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="rbB" mnemonicParsing="false" selected="true" text="B" toggleGroup="$tgChoose" />
-            <RadioButton fx:id="rbC" mnemonicParsing="false" text="C" toggleGroup="$tgChoose" />
-         </children>
-      </HBox>
-      <Button layoutX="1031.0" layoutY="675.0" mnemonicParsing="false" onAction="#refreshChart" text="EinzelAnsicht" />
-      <Button layoutX="340.0" layoutY="708.0" mnemonicParsing="false" onAction="#loadCopy" text="Refresh" />
+      <TextField fx:id="txfRunde" alignment="CENTER_RIGHT" layoutX="939.0" layoutY="673.0" prefHeight="31.0" prefWidth="48.0" text="1" />
+      <ChoiceBox fx:id="chBoxTeil" layoutX="1284.0" layoutY="638.0" prefWidth="150.0" />
+      <Button layoutX="987.0" layoutY="673.0" mnemonicParsing="false" onAction="#runSim" prefHeight="31.0" prefWidth="155.0" text="Runde(n) Simulieren" />
+      <Button layoutX="1245.0" layoutY="673.0" mnemonicParsing="false" onAction="#refreshChart" text="Aktuell" />
+      <Button layoutX="1383.0" layoutY="673.0" mnemonicParsing="false" onAction="#loadCopy" text="Start/Aktuell" />
+      <Button layoutX="543.0" layoutY="673.0" mnemonicParsing="false" onAction="#loadSitu" prefHeight="31.0" prefWidth="197.0" text="Tabellen Laden" />
+      <Label layoutX="1008.0" layoutY="24.0" text="Simulierte Runden: " />
+      <Label fx:id="lbRunden" layoutX="1145.0" layoutY="24.0" text="0" />
+      <Label layoutX="81.0" layoutY="24.0" text="Anzeige:" />
+      <Label fx:id="lbAnzeige" layoutX="155.0" layoutY="24.0" prefHeight="21.0" prefWidth="137.0" />
+      <GridPane fx:id="gridTable" alignment="CENTER" gridLinesVisible="true" layoutX="1221.0" layoutY="70.0" prefHeight="309.0" prefWidth="601.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="320.0" minHeight="44.0" prefHeight="44.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="332.0" minHeight="44.0" prefHeight="44.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </GridPane>
+      <Label layoutX="1390.0" layoutY="20.0" prefHeight="50.0" prefWidth="245.0" text="Tabellen Überischt, Spieler :">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTSp" layoutX="1644.0" layoutY="32.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

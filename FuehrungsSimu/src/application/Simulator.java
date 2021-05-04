@@ -6,6 +6,7 @@ public class Simulator {
 	
 	Vorgesetzer vorgesetzer;
 	LinkedList<Mitarbeiter> worker = new LinkedList<Mitarbeiter>();
+	LinkedList<String> auswahl = new LinkedList<String>();
 	
 	public Simulator(String [][] tabelle) {
 		
@@ -30,5 +31,8 @@ public class Simulator {
 		}
 	}
 	
+	public void addAuswahl(String choose) {
+		this.auswahl.add(choose);
+	}
 
 }
